@@ -1,1 +1,52 @@
+on:
+  repository_dispatch:
+    types: [automatic-vpm-update]
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
+permissions:
+  id-token: write
+  pages: write
+  contents: read
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy repository manifest
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup
+        run: mkdir out out-reso
+      - name: Build UniAsset repository
+        uses: yuki-2525/vpm-repo-list-generator@dist
+        with:
+          output: out
+          repository: yuki-2525/UniAsset-UnityEditorAssetBrowser-
+          package: sakurayuki.dev.UniAsset
+          repo_url: https://vpm.sakurayuki.dev/vpm.json
+          prerelease_repo_url: https://vpm.sakurayuki.dev/vpm-prerelease.json
+          repo_author: sakurayuki
+          repo_name: sakurayuki
+          repo_id: dev.sakurayuki.vpm
+          prerelease_repo_id: dev.sakurayuki.prerelease
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls -lR .
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

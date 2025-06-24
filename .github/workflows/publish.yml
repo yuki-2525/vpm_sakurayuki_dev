@@ -26,7 +26,7 @@ jobs:
       - name: Setup
         run: mkdir out
       - name: Build UniAsset repository
-        uses: yuki-2525/vpm-repo-list-generator@dist
+        uses: bdunderscore/vpm-repo-list-generator@dist
         with:
           output: out
           repository: yuki-2525/UniAsset-UnityEditorAssetBrowser-

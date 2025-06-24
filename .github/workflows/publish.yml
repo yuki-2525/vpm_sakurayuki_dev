@@ -30,7 +30,7 @@ jobs:
         with:
           output: out
           repository: yuki-2525/UniAsset-UnityEditorAssetBrowser-
-          package: sakurayuki.dev.uniAsset
+          package: sakurayuki.dev.uniasset
           repo_url: https://vpm.sakurayuki.dev/vpm.json
           prerelease_repo_url: https://vpm.sakurayuki.dev/vpm-prerelease.json
           repo_author: sakurayuki
